@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 interface ISquare {
   id: string
-  rotation?: number;
+  rotation?: 90 | 180 | 270; // omitted = 0
 }
 
 const squares: ISquare[][] = [[{id: "A1", rotation: 90}, {id: "B1"}, {id: "C1"}], [{id: "A2"}, {id: "B2"}, {id: "C2"}], [{id: "A3"}, {id: "B3"}, {id: "C3"}]]
