@@ -1,16 +1,34 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 type Rotation = 90 | 180 | 270;
 interface ISquare {
-  id: string
-  rotation?: Rotation // omitted = 0
+  id: string;
+  rotation?: Rotation; // omitted = 0
 }
 
-const squares: ISquare[][] = [[{id: "A1", rotation: 90}, {id: "B1"}, {id: "C1"}], [{id: "A2"}, {id: "B2"}, {id: "C2"}], [{id: "A3"}, {id: "B3"}, {id: "C3"}]]
+const squares: ISquare[][] = [
+  [{ id: "A1", rotation: 90 }, { id: "B1" }, { id: "C1" }],
+  [{ id: "A2" }, { id: "B2" }, { id: "C2" }],
+  [{ id: "A3" }, { id: "B3" }, { id: "C3" }],
+];
 
 export const App = () => {
-  return (<Root><Cols>{squares.map((row, i) => <Row key={i}>{row.map(square => <Square rotation={square.rotation} key={square.id}>{square.id}</Square>)}</Row>)}</Cols></Root>);
-}
+  return (
+    <Root>
+      <Cols>
+        {squares.map((row, i) => (
+          <Row key={i}>
+            {row.map((square) => (
+              <Square rotation={square.rotation} key={square.id}>
+                {square.id}
+              </Square>
+            ))}
+          </Row>
+        ))}
+      </Cols>
+    </Root>
+  );
+};
 
 const Root = styled.div`
   display: flex;
@@ -34,7 +52,7 @@ const Row = styled.div`
   gap: 12px;
 `;
 
-const Square = styled.div<{rotation?: Rotation}>`
+const Square = styled.div<{ rotation?: Rotation }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,5 +62,5 @@ const Square = styled.div<{rotation?: Rotation}>`
   text-align: center;
   color: black;
   font-weight: 800;
-  transform: rotate(${p => (p.rotation ?? 0) + "deg"});
+  transform: rotate(${(p) => (p.rotation ?? 0) + "deg"});
 `;
