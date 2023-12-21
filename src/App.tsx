@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 type Rotation = 90 | 180 | 270;
@@ -6,20 +7,33 @@ interface ISquare {
   rotation?: Rotation; // omitted = 0
 }
 
-const squares: ISquare[][] = [
-  [{ id: "A1", rotation: 90 }, { id: "B1" }, { id: "C1" }],
+const initialSquares: ISquare[][] = [
+  [{ id: "A1" }, { id: "B1" }, { id: "C1" }],
   [{ id: "A2" }, { id: "B2" }, { id: "C2" }],
   [{ id: "A3" }, { id: "B3" }, { id: "C3" }],
 ];
 
 export const App = () => {
+  const [squares, setSquares] = useState<ISquare[][]>(initialSquares);
+
+  const onClick = (id: string) => {
+    console.log(id);
+    // TODO
+    // const newSquares = [...squares, [squares[0], { id: "C1", rotation: 90 }]];
+    // setSquares(newSquares);
+  };
+
   return (
     <Root>
       <Cols>
         {squares.map((row, i) => (
           <Row key={i}>
             {row.map((square) => (
-              <Square rotation={square.rotation} key={square.id}>
+              <Square
+                rotation={square.rotation}
+                onClick={() => onClick(square.id)}
+                key={square.id}
+              >
                 {square.id}
               </Square>
             ))}
