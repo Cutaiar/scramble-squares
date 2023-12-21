@@ -1,5 +1,7 @@
 # scramble-squares
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/966d0add-5b76-448d-9648-a65be9312a06/deploy-status)](https://app.netlify.com/sites/scramble-squares/deploys)
+
 Visualizing Scramble Squares while we solve it.
 
 ## React + TypeScript + Vite
