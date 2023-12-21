@@ -1,13 +1,14 @@
 import styled from "styled-components"
 
-function App() {
-
-  const squares = [["A1", "B1", "C1"], ["A2", "B2", "C2"], ["A3", "B3", "C3"]];
-
-  return (<Root><Cols>{squares.map(row => <Row>{row.map(square => <Square>{square}</Square>)}</Row>)}</Cols></Root>);
+interface ISquare {
+  id: string
+  rotation?: number;
 }
 
-export default App
+const squares: ISquare[][] = [[{id: "A1", rotation: 90}, {id: "B1"}, {id: "C1"}], [{id: "A2"}, {id: "B2"}, {id: "C2"}], [{id: "A3"}, {id: "B3"}, {id: "C3"}]]
+export const App = () => {
+  return (<Root><Cols>{squares.map(row => <Row>{row.map(square => <Square {...square}>{square.id}</Square>)}</Row>)}</Cols></Root>);
+}
 
 const Root = styled.div`
   display: flex;
@@ -30,7 +31,7 @@ const Row = styled.div`
   gap: 12px;
 `;
 
-const Square = styled.div`
+const Square = styled.div<{rotation?: number}>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,4 +41,5 @@ const Square = styled.div`
   text-align: center;
   color: black;
   font-weight: 800;
+  transform: rotate(${p => (p.rotation ?? 0) + "deg"});
 `;
