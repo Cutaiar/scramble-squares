@@ -22,6 +22,7 @@ const Root = styled.div`
 const Cols = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 12px;
   width: 100%;
 `;
