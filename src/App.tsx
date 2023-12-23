@@ -7,6 +7,10 @@ interface ISquare {
   rotation?: Rotation; // omitted = 0
 }
 
+const rotate = (r: Rotation) => {
+  return r + (90 % 360);
+};
+
 const initialSquares: ISquare[][] = [
   [{ id: "A1" }, { id: "B1" }, { id: "C1" }],
   [{ id: "A2" }, { id: "B2" }, { id: "C2" }],
@@ -19,6 +23,9 @@ export const App = () => {
   const onClick = (id: string) => {
     console.log(id);
     // TODO
+    const square = squares.flat().find((s) => s.id === id);
+    const rotated = square && { square, rotation: rotate(square.rotation) };
+
     // const newSquares = [...squares, [squares[0], { id: "C1", rotation: 90 }]];
     // setSquares(newSquares);
   };
