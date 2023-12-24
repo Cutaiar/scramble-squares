@@ -39,6 +39,7 @@ export const App = () => {
 
   return (
     <Root>
+      <Title>Scramble Squares</Title>
       <Cols>
         {rows.map((row, i) => (
           <Row key={i}>
@@ -54,9 +55,24 @@ export const App = () => {
           </Row>
         ))}
       </Cols>
+      <Reset onClick={() => setSquares(initialSquares)}>Reset</Reset>
     </Root>
   );
 };
+
+const Title = styled.span`
+  margin-bottom: 16px;
+  font-weight: 800;
+`;
+
+const Reset = styled.a`
+  margin-top: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 const Root = styled.div`
   display: flex;
@@ -86,9 +102,18 @@ const Square = styled.div<{ rotation?: Rotation }>`
   justify-content: center;
   width: 100px;
   height: 100px;
-  background-color: #e2be6b;
+  background-color: hsl(42, 67%, 65%);
   text-align: center;
   color: black;
   font-weight: 800;
-  transform: rotate(${(p) => (p.rotation ?? 0) + "deg"});
+  cursor: pointer;
+
+  --rotation: ${(p) => (p.rotation ?? 0) + "deg"};
+  transition: all ease-in-out 300ms;
+  transform: rotate(var(--rotation));
+
+  &:hover {
+    transform: scale(1.05) rotate(var(--rotation));
+    background-color: hsl(42, 67%, 70%);
+  }
 `;
