@@ -1,39 +1,46 @@
 import { useState } from "react";
 import styled from "styled-components";
+import * as _ from "lodash";
 
-type Rotation = 90 | 180 | 270;
+type Rotation = 0 | 90 | 180 | 270;
 interface ISquare {
   id: string;
-  rotation?: Rotation; // omitted = 0
+  rotation: Rotation;
 }
 
-const rotate = (r: Rotation) => {
-  return r + (90 % 360);
+const rotate = (r: Rotation): Rotation => {
+  return ((r + 90) % 360) as Rotation;
 };
 
-const initialSquares: ISquare[][] = [
-  [{ id: "A1" }, { id: "B1" }, { id: "C1" }],
-  [{ id: "A2" }, { id: "B2" }, { id: "C2" }],
-  [{ id: "A3" }, { id: "B3" }, { id: "C3" }],
+const initialSquares: ISquare[] = [
+  { id: "A1", rotation: 0 },
+  { id: "B1", rotation: 0 },
+  { id: "C1", rotation: 0 },
+  { id: "A2", rotation: 0 },
+  { id: "B2", rotation: 0 },
+  { id: "C2", rotation: 0 },
+  { id: "A3", rotation: 0 },
+  { id: "B3", rotation: 0 },
+  { id: "C3", rotation: 0 },
 ];
 
 export const App = () => {
-  const [squares, setSquares] = useState<ISquare[][]>(initialSquares);
+  const [squares, setSquares] = useState<ISquare[]>(initialSquares);
 
   const onClick = (id: string) => {
-    console.log(id);
-    // TODO
-    const square = squares.flat().find((s) => s.id === id);
-    const rotated = square && { square, rotation: rotate(square.rotation) };
-
-    // const newSquares = [...squares, [squares[0], { id: "C1", rotation: 90 }]];
-    // setSquares(newSquares);
+    // Rotate the square that was clicked on
+    const newSquares = squares.map((s) =>
+      s.id === id ? { ...s, rotation: rotate(s.rotation) } : s
+    );
+    setSquares(newSquares);
   };
+
+  const rows = _.chunk(squares, 3);
 
   return (
     <Root>
       <Cols>
-        {squares.map((row, i) => (
+        {rows.map((row, i) => (
           <Row key={i}>
             {row.map((square) => (
               <Square
