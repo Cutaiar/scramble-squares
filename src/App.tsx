@@ -49,7 +49,11 @@ export const App = () => {
                 onClick={() => onClick(square.id)}
                 key={square.id}
               >
-                {square.id}
+                {/* {square.id} */}
+                <RedShell />
+                <BlueShell />
+                <GreenShell />
+                <BlackShell />
               </Square>
             ))}
           </Row>
@@ -116,4 +120,42 @@ const Square = styled.div<{ rotation?: Rotation }>`
     transform: scale(1.05) rotate(var(--rotation));
     background-color: hsl(42, 67%, 70%);
   }
+`;
+
+const Shell = styled.div`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+`;
+
+const RedShell = styled(Shell)`
+  background-color: red;
+
+  top: calc(50% - 10px);
+  right: 0;
+  border-radius: 50% 0 0 50%;
+`;
+
+const BlueShell = styled(Shell)`
+  background-color: blue;
+
+  top: calc(50% - 10px);
+  left: 0;
+  border-radius: 0 50% 50% 0;
+`;
+
+const GreenShell = styled(Shell)`
+  background-color: green;
+
+  left: calc(50% - 10px);
+  top: 0;
+  border-radius: 0 0 50% 50%;
+`;
+
+const BlackShell = styled(Shell)`
+  background-color: black;
+
+  left: calc(50% - 10px);
+  bottom: 0;
+  border-radius: 50% 50% 0 0;
 `;
