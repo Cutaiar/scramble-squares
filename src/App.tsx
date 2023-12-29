@@ -109,6 +109,7 @@ export const App = () => {
     }
   };
 
+  // TODO: Add list to hold pieces "off the board"
   return (
     <Root>
       <Title>Scramble Squares</Title>
