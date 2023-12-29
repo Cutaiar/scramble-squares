@@ -19,6 +19,26 @@ const rotate = (r: Rotation): Rotation => {
   return ((r + 90) % 360) as Rotation;
 };
 
+const reorder = (list: ISquare[], startIndex: number, endIndex: number) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+};
+
+const move = (
+  sourceList: ISquare[],
+  destList: ISquare[],
+  startIndex: number,
+  endIndex: number
+) => {
+  const sourceResult = Array.from(sourceList);
+  const destResult = Array.from(destList);
+  const [removed] = sourceResult.splice(startIndex, 1);
+  destResult.splice(endIndex, 0, removed);
+  return [sourceResult, destResult];
+};
+
 const initialSquares: ISquare[] = [
   { id: "A1", rotation: 0 },
   { id: "B1", rotation: 0 },
@@ -44,13 +64,7 @@ export const App = () => {
 
   const rows = _.chunk(squares, 3);
 
-  const reorder = (list: ISquare[], startIndex: number, endIndex: number) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
-
+  // Based on https://codesandbox.io/p/sandbox/multiple-lists-with-drag-and-drop-zvdfe?file=/index.js:22,1-23,1
   const onDragEnd: OnDragEndResponder = (result, provided) => {
     const { source, destination } = result;
 
@@ -59,29 +73,39 @@ export const App = () => {
       return;
     }
 
+    // TODO: Limit lists to three items
+
     console.log(
       "move " +
         result.draggableId +
         " from " +
         source.index +
-        " to" +
+        " to " +
         destination?.index
     );
 
+    const rowIndex = source.droppableId as unknown as number;
     if (source.droppableId === destination.droppableId) {
-      const items = reorder(
-        rows[source.droppableId as unknown as number],
+      const newRow = reorder(rows[rowIndex], source.index, destination.index);
+
+      const result = Array.from(rows);
+      result.splice(rowIndex, 1, newRow);
+      setSquares(result.flat());
+    } else {
+      // TODO: moving between lists works, but we need to implement swapping for it to work correctly with the flat list state.
+      // Without swapping, when the list is rerendered, items move around
+      const destRowIndex = destination.droppableId as unknown as number;
+
+      const [newSource, newDest] = move(
+        rows[rowIndex],
+        rows[destRowIndex],
         source.index,
         destination.index
       );
-
-      // Set state after combining items with other lists
-      // Something like:
-      // setSquares([...otherrows, items]);
-    } else {
-      // TODO: Drop between lists using
-      // https://codesandbox.io/p/sandbox/multiple-lists-with-drag-and-drop-zvdfe?file=/index.js:22,1-23,1
-      console.error("Cross list not yet supported");
+      const result = Array.from(rows);
+      result.splice(rowIndex, 1, newSource);
+      result.splice(destRowIndex, 1, newDest);
+      setSquares(result.flat());
     }
   };
 
@@ -91,7 +115,11 @@ export const App = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Cols>
           {rows.map((row, ri) => (
-            <StrictModeDroppable droppableId={String(ri)} key={ri}>
+            <StrictModeDroppable
+              droppableId={String(ri)}
+              key={ri}
+              direction="horizontal"
+            >
               {(provided) => (
                 <Row
                   key={ri}
@@ -167,7 +195,9 @@ const Cols = styled.div`
 
 const Row = styled.ul`
   display: flex;
+  justify-content: center;
   gap: 12px;
+  width: 400px;
 
   margin: 0;
   padding: 0;
@@ -186,7 +216,7 @@ const Square = styled.li<{ rotation?: Rotation }>`
   cursor: pointer;
 
   --rotation: ${(p) => (p.rotation ?? 0) + "deg"};
-  transition: all ease-in-out 300ms;
+  /* transition: all ease-in-out 300ms; */ /* TODO: transition interferes with DND casing causing snapping */
   transform: rotate(var(--rotation));
 
   &:hover {
