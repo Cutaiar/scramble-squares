@@ -8,7 +8,7 @@ A minimal [Scramble Squares](https://scramblesquares.com/) game and solution vis
 
 ## TODO
 
-- Implement drag interaction
+- Implement drag interaction with swapping between rows
 - Implement solver
 - Consider these reccomendations from Vite
   - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
