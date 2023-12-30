@@ -7,7 +7,7 @@ import {
   Draggable,
   OnDragEndResponder,
 } from "react-beautiful-dnd";
-import { StrictModeDroppable } from "./StrictModeDroppable";
+import { StrictModeDroppable as Droppable } from "./StrictModeDroppable";
 
 type Rotation = 0 | 90 | 180 | 270;
 interface ISquare {
@@ -116,11 +116,7 @@ export const App = () => {
       <DragDropContext onDragEnd={onDragEnd}>
         <Cols>
           {rows.map((row, ri) => (
-            <StrictModeDroppable
-              droppableId={String(ri)}
-              key={ri}
-              direction="horizontal"
-            >
+            <Droppable droppableId={String(ri)} key={ri} direction="horizontal">
               {(provided) => (
                 <Row
                   key={ri}
@@ -154,7 +150,7 @@ export const App = () => {
                   {provided.placeholder}
                 </Row>
               )}
-            </StrictModeDroppable>
+            </Droppable>
           ))}
         </Cols>
       </DragDropContext>
