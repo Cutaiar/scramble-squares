@@ -3,6 +3,7 @@ import "react-resizable/css/styles.css";
 import GridLayout, { Layout, WidthProvider } from "react-grid-layout";
 import React, { useState } from "react";
 import { cn } from "./lib/utils";
+import "./custom.css";
 
 // 🧠 can i read the width of the container to set the row height such that they will be sq
 // Rather, the row height drives the width, we calculate the width from a set rowheight for the grid
@@ -73,6 +74,7 @@ export const RGLApp = () => {
   const m = 40;
   const cols = 4;
   const w = rh * cols + m * (cols + 1);
+  // For some reason, changing the values from the above causing a strange layout
   console.log(w);
 
   return (
