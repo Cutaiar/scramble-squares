@@ -16,7 +16,6 @@
 
 /* Inconsequential styles  */
 .react-grid-item.react-grid-placeholder {
-    background-color: transparent;
-    border: 3px dashed #f6339a;
+    background-color: #f6339a;
     border-radius: 12px;
 }
