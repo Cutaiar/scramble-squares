@@ -32,8 +32,8 @@ const initialLayout = [
   { i: "e", x: 0, y: 1, w: 2, h: 1 },
   { i: "f", x: 2, y: 1, w: 2, h: 1 },
 
-  { i: "g", x: 0, y: 3, w: 2, h: 2 },
-  { i: "h", x: 2, y: 3, w: 2, h: 2 },
+  { i: "g", x: 0, y: 2, w: 2, h: 2 },
+  { i: "h", x: 2, y: 2, w: 2, h: 2 },
 ];
 
 export const RGLApp = () => {
@@ -90,10 +90,10 @@ export const RGLApp = () => {
         </button>
       </div>
       {/* Grid container (rest of the page) */}
-      <div className="flex-1 flex justify-center overflow-y-auto">
+      <div className="flex-1 overflow-y-auto">
         {/* Grid layout (less than the rest of the page) */}
         <GridLayoutWithWidth
-          className={cn(`w-[${w}px]`)}
+          className={cn(`max-w-[${w}px] mx-auto`)}
           compactType="horizontal"
           layout={layout}
           cols={cols}
