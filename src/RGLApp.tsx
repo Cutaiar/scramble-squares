@@ -157,7 +157,7 @@ export const RGLApp = () => {
         {/* Grid layout (less than the rest of the page) */}
         {/* This div responds to its parents size, going between a sm and lg size, which then triggers the grid breakpoint. centers the grid inside using mx-auto */}
         <div
-          className={`mx-auto w-(--wsm) @3xl:w-(--wlg)`}
+          className={`mx-auto w-(--wsm) @4xl:w-(--wlg)`}
           style={
             {
               "--wsm": `${wSm}px`,
