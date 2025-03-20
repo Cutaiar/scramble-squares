@@ -151,6 +151,18 @@ export const RGLApp = () => {
         >
           Add Widget
         </button>
+        <button
+          className="bg-pink-500 p-3 rounded-lg text-2xl font-medium hover:bg-pink-400"
+          onClick={() => {
+            const randomIndex = Math.floor(
+              Math.random() * layouts[breakpoint].length
+            );
+            const randomWidget = layouts[breakpoint][randomIndex];
+            cycleSize(randomWidget);
+          }}
+        >
+          Resize random widget
+        </button>
       </div>
       {/* Grid container (rest of the page) */}
       <div className="flex-1 overflow-y-auto @container">
@@ -182,9 +194,10 @@ export const RGLApp = () => {
             onDragStart={(_, __, ___, ____, e) => e.stopPropagation()} // this is just a little hack to make double click more reliable
           >
             {layouts[breakpoint].map((item) => (
-              <Widget key={item.i} onDoubleClickCapture={() => cycleSize(item)}>
-                {item.i}
-              </Widget>
+              <Widget
+                key={item.i}
+                onDoubleClickCapture={() => cycleSize(item)}
+              ></Widget>
             ))}
           </GridLayoutWithWidth>
         </div>
