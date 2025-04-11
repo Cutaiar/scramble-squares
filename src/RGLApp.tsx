@@ -4,7 +4,7 @@ import { Layout, Responsive } from "react-grid-layout";
 import React, { useEffect, useState } from "react";
 import { cn } from "./lib/utils";
 import "./custom.css";
-import { useContainerQuery } from "./use-container-query";
+import { useContainerQuery } from "./lib/use-container-query";
 
 // 🧠 can i read the width of the container to set the row height such that they will be sq
 // Rather, the row height drives the width, we calculate the width from a set rowheight for the grid
