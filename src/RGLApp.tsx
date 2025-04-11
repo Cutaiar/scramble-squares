@@ -1,14 +1,15 @@
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { Layout, WidthProvider, Responsive } from "react-grid-layout";
-import React, { useState } from "react";
+import { Layout, Responsive } from "react-grid-layout";
+import React, { useEffect, useState } from "react";
 import { cn } from "./lib/utils";
 import "./custom.css";
+import { useContainerQuery } from "./use-container-query";
 
 // 🧠 can i read the width of the container to set the row height such that they will be sq
 // Rather, the row height drives the width, we calculate the width from a set rowheight for the grid
 
-const GridLayoutWithWidth = WidthProvider(Responsive);
+// const GridLayoutWithWidth = WidthProvider(Responsive);
 
 const updateElementInLayout = (
   layout: Layout[],
@@ -85,11 +86,22 @@ export const RGLApp = () => {
     useState<Record<"sm" | "lg", Layout[]>>(initialLayout);
   const [breakpoint, setBreakpoint] = useState<"sm" | "lg">("lg");
 
+  const { ref, matches } = useContainerQuery<HTMLDivElement>("56rem");
+
+  useEffect(() => {
+    if (matches) {
+      setBreakpoint("lg");
+    } else {
+      setBreakpoint("sm");
+    }
+  }, [matches]);
+
   const onLayoutChange = (
     layout: Layout[],
     allLayouts: Record<"sm" | "lg", Layout[]>
   ) => {
-    console.log(breakpoint);
+    console.log("layouts", layouts);
+    console.log("layout", layout);
     setLayouts(allLayouts);
   };
 
@@ -163,6 +175,7 @@ export const RGLApp = () => {
         >
           Resize random widget
         </button>
+        <div>{matches ? "lg" : "sm"}</div>
       </div>
       {/* Grid container (rest of the page) */}
       <div className="flex-1 overflow-y-auto @container">
@@ -170,6 +183,7 @@ export const RGLApp = () => {
         {/* This div responds to its parents size, going between a sm and lg size, which then triggers the grid breakpoint. centers the grid inside using mx-auto */}
         <div
           className={`mx-auto w-(--wsm) @4xl:w-(--wlg)`}
+          ref={ref}
           style={
             {
               "--wsm": `${wSm}px`,
@@ -177,17 +191,16 @@ export const RGLApp = () => {
             } as React.CSSProperties
           }
         >
-          <GridLayoutWithWidth
+          <Responsive
             compactType="horizontal"
             layouts={layouts}
-            breakpoints={breakpoints}
             cols={cols}
             rowHeight={rh}
             margin={[m, m]}
             width={width}
             isResizable={false}
-            // @ts-expect-error enum cast
-            onBreakpointChange={setBreakpoint}
+            breakpoints={breakpoints}
+            breakpoint={breakpoint}
             onLayoutChange={onLayoutChange}
             // 👇  Not important
             // autoSize={false} // if you use autoSize={false}, you can use tailwind h-full
@@ -199,7 +212,7 @@ export const RGLApp = () => {
                 onDoubleClickCapture={() => cycleSize(item)}
               ></Widget>
             ))}
-          </GridLayoutWithWidth>
+          </Responsive>
         </div>
       </div>
     </div>
